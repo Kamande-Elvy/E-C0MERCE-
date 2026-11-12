@@ -1,4 +1,4 @@
-public final class Config 
+public final class Config {
 
     private Config() { }   
 
@@ -26,3 +26,4 @@ public final class Config
 
     
     public static final boolean VERBOSE = false;
+}
