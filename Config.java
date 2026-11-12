@@ -1,4 +1,4 @@
-public final class Config {
+public final class Config 
 
     private Config() { }   
 
