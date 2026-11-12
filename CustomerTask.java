@@ -3,7 +3,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadLocalRandom;
 
 
- 
 public class CustomerTask implements Runnable {
 
     private final CustomerOrder order;
@@ -30,11 +29,12 @@ public class CustomerTask implements Runnable {
     @Override
     public void run() {
         try {
-           
+            
             startSignal.await();
 
             stats.ordersReceived.incrementAndGet();
 
+            
             if (!inventory.reserve(order.getProduct(), order.getQuantity())) {
                 order.setStatus(OrderStatus.OUT_OF_STOCK);
                 stats.outOfStock.incrementAndGet();
@@ -48,10 +48,10 @@ public class CustomerTask implements Runnable {
             Log.event(order + " reserved stock -> payment");
             paymentQueue.put(order);
 
-            
             if (ThreadLocalRandom.current().nextDouble() < Config.CANCEL_RATE) {
                 Thread.sleep(ThreadLocalRandom.current().nextInt(0, 40));
-                if (order.cancel()) {
+                if (order.getStatus() == OrderStatus.RESERVED) {
+                    order.setStatus(OrderStatus.CANCELLED);
                     Log.event(order + " customer requested cancellation");
                 } else {
                     Log.event(order + " cancellation refused (already " + order.getStatus() + ")");
@@ -63,4 +63,3 @@ public class CustomerTask implements Runnable {
         }
     }
 }
-
