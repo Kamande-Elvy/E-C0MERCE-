@@ -1,7 +1,7 @@
 public class CustomerOrder {
 
    
-     */
+     
     public static final CustomerOrder POISON_PILL = new CustomerOrder(-1, "POISON_PILL", "-", 0);
 
    
@@ -36,13 +36,13 @@ public class CustomerOrder {
     }
 
     
-     */
+     
     public synchronized void setStatus(OrderStatus newStatus) {
         this.status = newStatus;
     }
 
 
-      @return 
+      
      
     public synchronized boolean advanceTo(OrderStatus next) {
         if (status == OrderStatus.CANCELLED) {
@@ -55,8 +55,7 @@ public class CustomerOrder {
     
      
      
-     *
-     * @return 
+     
      
     public synchronized boolean cancel() {
         if (status == OrderStatus.RESERVED
