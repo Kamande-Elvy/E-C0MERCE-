@@ -2,7 +2,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class ReportGenerator {
      public static void print(Stats stats,
                              InventoryManager inventory,
@@ -84,15 +83,12 @@ public class ReportGenerator {
         System.out.println("==================================================");
     }
 
-
     private static void row(String label, int value) {
         System.out.printf("%-28s : %5d%n", label, value);
     }
-
     private static void check(String description, boolean passed) {
         System.out.println("  [" + (passed ? "PASS" : "FAIL") + "] " + description);
     }
-
     private static int count(Map<OrderStatus, Integer> map, OrderStatus status) {
         return map.getOrDefault(status, 0);
     }
