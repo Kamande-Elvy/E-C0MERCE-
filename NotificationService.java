@@ -1,26 +1,33 @@
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class NotificationService {
+   private final AtomicInteger messagesSent = new AtomicInteger();
 
-    private final AtomicInteger messagesSent = new AtomicInteger();
+   public NotificationService() {
+   }
 
-    public void notifyDispatched(CustomerOrder order, DeliveryVehicle vehicle) {
-        send(order, "your order #" + order.getOrderId() + " is on its way in " + vehicle.getName());
-    }
+   public void notifyDispatched(CustomerOrder var1, DeliveryVehicle var2) {
+      int var10002 = var1.getOrderId();
+      this.send(var1, "your order #" + var10002 + " is on its way in " + var2.getName());
+   }
 
-    public void notifyDelivered(CustomerOrder order, DeliveryVehicle vehicle) {
-        send(order, "order #" + order.getOrderId() + " delivered by " + vehicle.getName());
-    }
+   public void notifyDelivered(CustomerOrder var1, DeliveryVehicle var2) {
+      int var10002 = var1.getOrderId();
+      this.send(var1, "order #" + var10002 + " delivered by " + var2.getName());
+   }
 
-    public void notifyProblem(CustomerOrder order, String reason) {
-        send(order, "order #" + order.getOrderId() + " not completed: " + reason);
-    }
+   public void notifyProblem(CustomerOrder var1, String var2) {
+      int var10002 = var1.getOrderId();
+      this.send(var1, "order #" + var10002 + " not completed: " + var2);
+   }
 
-    // private = internal helper, other classes can't call it directly
-    private void send(CustomerOrder order, String message) {
-        messagesSent.incrementAndGet();
-        Log.event("SMS to " + order.getCustomerName() + ": " + message);
-    }
+   private void send(CustomerOrder var1, String var2) {
+      this.messagesSent.incrementAndGet();
+      String var10000 = var1.getCustomerName();
+      Log.event("SMS to " + var10000 + ": " + var2);
+   }
 
-    public int getMessagesSent() {
-        return messagesSent.get();
-    }
+   public int getMessagesSent() {
+      return this.messagesSent.get();
+   }
 }

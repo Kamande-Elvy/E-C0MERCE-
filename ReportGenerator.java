@@ -2,8 +2,11 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+
+
 public class ReportGenerator {
-     public static void print(Stats stats,
+
+    public static void print(Stats stats,
                              InventoryManager inventory,
                              List<DeliveryVehicle> vehicles,
                              List<CustomerOrder> allOrders,
@@ -42,7 +45,7 @@ public class ReportGenerator {
 
         System.out.println("Consistency checks:");
 
-       
+        // 1. Count the final status of every order (EnumMap = a Map keyed by enum values)
         Map<OrderStatus, Integer> finalStates = new EnumMap<>(OrderStatus.class);
         int stuck = 0;
         for (CustomerOrder o : allOrders) {
@@ -54,12 +57,14 @@ public class ReportGenerator {
         }
         check("No order lost (every order reached a final state)", stuck == 0);
 
+        
         int accounted = stats.outOfStock.get() + stats.paymentsFailed.get()
                       + stats.ordersCancelled.get() + stats.ordersDelivered.get();
         check("Every order counted once: received ("
                 + stats.ordersReceived.get() + ") = rejected + failed + cancelled + delivered ("
                 + accounted + ")", accounted == stats.ordersReceived.get());
 
+        // 3. The counters agree with the orders' actual statuses
         boolean countersMatch =
                 count(finalStates, OrderStatus.OUT_OF_STOCK)   == stats.outOfStock.get()
              && count(finalStates, OrderStatus.PAYMENT_FAILED) == stats.paymentsFailed.get()
@@ -83,13 +88,18 @@ public class ReportGenerator {
         System.out.println("==================================================");
     }
 
+    
+
     private static void row(String label, int value) {
         System.out.printf("%-28s : %5d%n", label, value);
     }
+
     private static void check(String description, boolean passed) {
         System.out.println("  [" + (passed ? "PASS" : "FAIL") + "] " + description);
     }
+
     private static int count(Map<OrderStatus, Integer> map, OrderStatus status) {
         return map.getOrDefault(status, 0);
     }
 }
+
