@@ -1,3 +1,5 @@
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Stats {
         public final AtomicInteger ordersReceived     = new AtomicInteger();
     public final AtomicInteger outOfStock         = new AtomicInteger();

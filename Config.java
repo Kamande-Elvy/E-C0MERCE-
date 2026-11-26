@@ -25,4 +25,5 @@ public final class Config {
     public static final int DELIVERY_MIN_MS  = 10, DELIVERY_MAX_MS  = 30;
 
     
-    public static final boolean VERBOSE = false;
+        public static final boolean VERBOSE = false;
+}
