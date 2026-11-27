@@ -27,5 +27,3 @@ public final class Config {
     
         public static final boolean VERBOSE = false;
 }
-    public static final boolean VERBOSE = false;
-}
